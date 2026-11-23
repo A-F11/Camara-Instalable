@@ -1,4 +1,4 @@
-var CACHE_NAME = 'inspeccion-pwa-v1';
+var CACHE_NAME = 'inspeccion-pwa-v2';
 
 var RECURSOS_PRECACHE = [
   './',
