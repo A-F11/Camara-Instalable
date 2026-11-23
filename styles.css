@@ -1,0 +1,308 @@
+:root {
+  --fondo: #0f172a;
+  --fondo-suave: #111c33;
+  --tarjeta: #16233c;
+  --borde: #24344f;
+  --texto: #e8eefb;
+  --texto-tenue: #9fb0cc;
+  --acento: #38bdf8;
+  --acento-fuerte: #0ea5e9;
+  --peligro: #f87171;
+  --ok: #34d399;
+  --aviso: #fbbf24;
+  --radio: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(1200px 480px at 50% -220px, #1d3357 0%, transparent 70%),
+    var(--fondo);
+  color: var(--texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: calc(14px + env(safe-area-inset-top)) 18px 14px;
+  border-bottom: 1px solid var(--borde);
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.marca-icono {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  flex: 0 0 auto;
+}
+
+.cabecera h1 {
+  margin: 0;
+  font-size: 1.05rem;
+  letter-spacing: 0.2px;
+}
+
+.subtitulo {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--texto-tenue);
+}
+
+.pastilla {
+  flex: 0 0 auto;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--borde);
+  white-space: nowrap;
+}
+
+.pastilla-online {
+  color: var(--ok);
+  border-color: rgba(52, 211, 153, 0.45);
+  background: rgba(52, 211, 153, 0.1);
+}
+
+.pastilla-offline {
+  color: var(--aviso);
+  border-color: rgba(251, 191, 36, 0.4);
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.contenido {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 18px 18px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1 0 auto;
+}
+
+.tarjeta {
+  background: linear-gradient(180deg, var(--tarjeta), var(--fondo-suave));
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 16px;
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.35);
+}
+
+.visor {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #050b18;
+  border: 1px solid var(--borde);
+}
+
+#visor-camara {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.visor.visor-activo #visor-camara {
+  display: block;
+}
+
+.visor-vacio {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #47597a;
+}
+
+.visor-vacio svg {
+  width: 52px;
+  height: 52px;
+  fill: currentColor;
+  opacity: 0.7;
+}
+
+.visor-vacio p {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.visor.visor-activo .visor-vacio {
+  display: none;
+}
+
+.estado {
+  margin: 14px 2px 0;
+  font-size: 0.85rem;
+  color: var(--texto-tenue);
+  min-height: 2.4em;
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.boton {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #06121f;
+  background: var(--acento);
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
+  touch-action: manipulation;
+}
+
+.boton:active {
+  transform: scale(0.985);
+}
+
+.boton:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.boton:disabled {
+  cursor: progress;
+  filter: saturate(0.6) brightness(0.85);
+}
+
+.boton-primario {
+  background: linear-gradient(180deg, var(--acento), var(--acento-fuerte));
+}
+
+.boton-secundario {
+  background: transparent;
+  color: var(--acento);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+.boton-peligro {
+  background: transparent;
+  color: var(--peligro);
+  border-color: rgba(248, 113, 113, 0.5);
+}
+
+.boton-fantasma {
+  background: transparent;
+  color: var(--texto-tenue);
+  border-color: var(--borde);
+}
+
+.boton-instalar {
+  width: 100%;
+  background: linear-gradient(180deg, #34d399, #10b981);
+  color: #04231a;
+}
+
+.aviso {
+  border-left: 4px solid var(--aviso);
+}
+
+.aviso h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.aviso p {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+  color: var(--texto-tenue);
+}
+
+.lista-aviso {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.86rem;
+  color: var(--texto-tenue);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.lista-aviso strong {
+  color: var(--texto);
+}
+
+.pie {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 12px 18px calc(18px + env(safe-area-inset-bottom));
+}
+
+.pie-texto {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 0.72rem;
+  color: #64789b;
+}
+
+@media (min-width: 520px) {
+  .acciones {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .acciones .boton {
+    flex: 1 1 200px;
+  }
+
+  .pie .boton-instalar {
+    width: auto;
+    min-width: 260px;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boton {
+    transition: none;
+  }
+}

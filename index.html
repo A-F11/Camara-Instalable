@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Inspección Visual PWA</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Captura de evidencia fotográfica con acceso consciente a cámara.">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="marca">
+      <img src="./icons/icon-192.png" alt="Logotipo Inspección PWA" class="marca-icono" width="44" height="44">
+      <div>
+        <h1>Inspección Visual</h1>
+        <p class="subtitulo">Vista previa local, sin envío de imágenes</p>
+      </div>
+    </div>
+    <span id="indicador-conexion" class="pastilla pastilla-offline">Sin conexión</span>
+  </header>
+
+  <main class="contenido">
+    <section class="tarjeta">
+      <div class="visor">
+        <video id="visor-camara" autoplay playsinline webkit-playsinline muted></video>
+        <div id="visor-vacio" class="visor-vacio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Zm8 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></svg>
+          <p>Cámara apagada</p>
+        </div>
+      </div>
+
+      <p id="mensaje-estado" class="estado" role="status" aria-live="polite">
+        La cámara está apagada. Nada se enciende hasta que tú lo autorices.
+      </p>
+
+      <div class="acciones">
+        <button id="btn-preparar-camara" type="button" class="boton boton-primario">
+          Solicitar acceso a cámara
+        </button>
+
+        <button id="btn-alternar-camara" type="button" class="boton boton-secundario" hidden>
+          Cambiar a cámara frontal
+        </button>
+
+        <button id="btn-apagar-camara" type="button" class="boton boton-peligro" hidden>
+          Apagar cámara
+        </button>
+      </div>
+    </section>
+
+    <section id="aviso-permiso" class="tarjeta aviso" hidden aria-labelledby="titulo-aviso">
+      <h2 id="titulo-aviso">Antes de encender la cámara</h2>
+      <ul class="lista-aviso">
+        <li>Esta aplicación requiere acceso a tu cámara <strong>únicamente para mostrar una vista previa local en pantalla</strong>.</li>
+        <li>Ninguna imagen ni video se envía a servidores externos: todo se procesa dentro de tu dispositivo.</li>
+        <li>Se encenderá la cámara <strong id="aviso-lente-objetivo">trasera</strong>. Podrás cambiarla o apagarla cuando quieras.</li>
+        <li>Si pulsas <em>Bloquear</em> en el aviso del navegador, deberás desbloquear el permiso manualmente en los ajustes del sitio.</li>
+      </ul>
+      <div class="acciones">
+        <button id="btn-confirmar-permiso" type="button" class="boton boton-primario">
+          Aceptar y encender cámara
+        </button>
+        <button id="btn-cancelar-permiso" type="button" class="boton boton-fantasma">
+          Ahora no
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <button id="btn-instalar" type="button" class="boton boton-instalar" hidden>
+      Instalar aplicación
+    </button>
+    <p class="pie-texto">
+      PWA de laboratorio · HTTPS · Service Worker activo · <span id="anio-actual"></span>
+    </p>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
