@@ -77,6 +77,14 @@ body {
   color: var(--texto-tenue);
 }
 
+.autor {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--acento);
+  letter-spacing: 0.2px;
+}
+
 .pastilla {
   flex: 0 0 auto;
   font-size: 0.7rem;
