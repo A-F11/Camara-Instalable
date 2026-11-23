@@ -17,9 +17,66 @@
   var btnAlternar = document.getElementById('btn-alternar-camara');
   var btnApagar = document.getElementById('btn-apagar-camara');
   var btnInstalar = document.getElementById('btn-instalar');
+  var pistaInstalacion = document.getElementById('pista-instalacion');
+  var estadoInstalacion = document.getElementById('estado-instalacion');
+  var toast = document.getElementById('toast');
+
+  var temporizadorToast = null;
 
   function actualizarMensajeEstado(texto) {
     mensajeEstado.textContent = texto;
+  }
+
+  function mostrarToast(texto) {
+    if (!toast) {
+      return;
+    }
+    toast.textContent = texto;
+    toast.hidden = false;
+    if (temporizadorToast) {
+      clearTimeout(temporizadorToast);
+    }
+    temporizadorToast = setTimeout(function () {
+      toast.hidden = true;
+      temporizadorToast = null;
+    }, 4500);
+  }
+
+  function enModoStandalone() {
+    return window.matchMedia('(display-mode: standalone)').matches;
+  }
+
+  function instalacionRecordada() {
+    try {
+      return window.localStorage.getItem('pwa-instalada') === '1';
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function recordarInstalacion() {
+    try {
+      window.localStorage.setItem('pwa-instalada', '1');
+    } catch (error) {
+      /* Almacenamiento no disponible (modo privado): solo se omite el recordatorio */
+    }
+  }
+
+  function marcarInstalada(mensaje) {
+    recordarInstalacion();
+    btnInstalar.hidden = true;
+    btnInstalar.disabled = false;
+    pistaInstalacion.hidden = true;
+    estadoInstalacion.hidden = false;
+    if (mensaje) {
+      mostrarToast(mensaje);
+    }
+  }
+
+  if (enModoStandalone() || instalacionRecordada()) {
+    btnInstalar.hidden = true;
+    pistaInstalacion.hidden = true;
+    estadoInstalacion.hidden = false;
   }
 
   function nombreLente(modo) {
@@ -189,6 +246,7 @@
     event.preventDefault();
     eventoInstalacionDiferido = event;
     btnInstalar.hidden = false;
+    pistaInstalacion.hidden = true;
     if (window.matchMedia('(display-mode: standalone)').matches) {
       btnInstalar.hidden = true;
     }
@@ -211,10 +269,11 @@
       })
       .then(function (resultado) {
         if (resultado && resultado.outcome === 'accepted') {
-          btnInstalar.hidden = true;
           actualizarMensajeEstado('Aplicación instalada. Ábrela desde la pantalla de inicio para usarla en modo standalone.');
+          marcarInstalada('Aplicación instalada correctamente.');
         } else {
           actualizarMensajeEstado('Instalación cancelada. Puedes intentarlo de nuevo desde el menú del navegador.');
+          mostrarToast('Instalación cancelada.');
         }
       })
       .catch(function (error) {
@@ -227,10 +286,29 @@
 
   window.addEventListener('appinstalled', function () {
     eventoInstalacionDiferido = null;
-    btnInstalar.hidden = true;
-    btnInstalar.disabled = false;
     actualizarMensajeEstado('PWA instalada correctamente en el dispositivo.');
+    marcarInstalada('Aplicación instalada correctamente.');
   });
+
+  setTimeout(function () {
+    if (!enModoStandalone() && !instalacionRecordada() && btnInstalar.hidden) {
+      pistaInstalacion.hidden = false;
+    }
+  }, 4000);
+
+  var consultaStandalone = window.matchMedia('(display-mode: standalone)');
+
+  function alCambiarModoVisualizacion(evento) {
+    if (evento.matches) {
+      marcarInstalada('Modo aplicación instalada activo.');
+    }
+  }
+
+  if (consultaStandalone.addEventListener) {
+    consultaStandalone.addEventListener('change', alCambiarModoVisualizacion);
+  } else if (consultaStandalone.addListener) {
+    consultaStandalone.addListener(alCambiarModoVisualizacion);
+  }
 
   btnPreparar.addEventListener('click', function () {
     avisoLenteObjetivo.textContent = nombreLenteMinuscula(modoCamaraActual);

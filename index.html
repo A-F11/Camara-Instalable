@@ -79,10 +79,17 @@
     <button id="btn-instalar" type="button" class="boton boton-instalar" hidden>
       Instalar aplicación
     </button>
+    <p id="pista-instalacion" class="pista-instalacion" hidden>
+      ¿No aparece el botón? Abre el menú ⋮ de Chrome y toca «Instalar aplicación» o «Agregar a pantalla de inicio».
+    </p>
     <p class="pie-texto">
-      Alicia Ramírez · PWA de laboratorio · HTTPS · Service Worker activo · <span id="anio-actual"></span>
+      Alicia Ramírez · PWA de laboratorio · HTTPS · Service Worker activo ·
+      <span id="estado-instalacion" class="pie-instalada" hidden>Instalada</span>
+      <span id="anio-actual"></span>
     </p>
   </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
   <script src="./app.js"></script>
 </body>
